@@ -1,0 +1,275 @@
+
+#msgForm {
+    background: #000;
+    padding: 3px;
+    /* position: fixed; */
+    bottom: 0;
+    width: 100%;
+    float: right;
+}
+
+#msgForm input {
+    border: 0;
+    padding: 10px;
+    width: 50%;
+    margin-right: .5%;
+}
+
+#msgForm button {
+    width: 9%;
+    background: rgb(130, 224, 255);
+    border: none;
+    padding: 10px;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width:40%;
+    float: right;
+}
+
+#messages li {
+    padding: 5px 10px;
+    width:100%;
+}
+
+#messages li:nth-child(odd) {
+    background: #eee;
+}
+
+form{
+	margin-top: 20px;
+}
+
+
+body{
+	background-image: url("http://my.vinu.edu/documents/167400/18508104/Albrecht+%40+EIU.jpg/a434a83f-d3f5-1487-234d-a7273c63828c?t=1513879265362");
+	
+	background-size: cover;
+	background-repeat:no-repeat;
+	
+}
+
+
+svg {
+        position: absolute;
+        z-index: 1;
+        left: 50px;
+        top: 25px;
+        height: 170px;
+    }
+    html {
+        cursor:copy;
+        margin-left: 100px;
+        margin-top: 50px;
+    }
+    
+    #bg {
+        max-width:100%;
+        position: absolute;
+        top:0px;
+        left:0px;
+        z-index: -1;
+        opacity:0.95;
+    }
+
+    input:hover {
+        opacity:1;
+    }
+    
+    h1 {
+        color:yellowgreen;
+        text-align:center;
+    }
+    
+    p , #em {
+        color:aqua;
+        font-size:20px;
+        padding: 2px 2px;
+			  margin-left: 20px;
+    }
+     
+
+		.allbody p{
+			padding-top: 20px;
+		}
+
+    body {
+        background-color:#006600;
+    }
+    
+    img {
+        position: absolute;
+        z-index: 99;
+        height: 50px;
+    }
+    
+    .changeSize {
+        background: #3498db;
+        background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+        background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+        background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+        background-image: -o-linear-gradient(top, #3498db, #2980b9);
+        background-image: linear-gradient(to bottom, #3498db, #2980b9);
+        -webkit-border-radius: 27;
+        -moz-border-radius: 27;
+        border-radius: 27px;
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 20px;
+        padding: 10px 20px 10px 20px;
+        max-width:110px;
+        text-align: center;
+        position: static;
+        top: 0;
+        right: 0;
+        float: right;
+    }
+    .changeSize:hover {
+        background: #3cb0fd;
+        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+        text-decoration: none;
+    }
+    
+    .fixed {
+        /*position: fixed;*/
+    }
+    
+    #header
+    {
+        background-color: forestgreen;
+    }
+    
+    ul {
+        list-style-type:none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333333;
+        width: 95%;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
+        border: 1px solid darkslategrey;
+    }
+
+    li a:hover {
+        background-color: white;
+        color: black;    
+    }
+    .body
+    {
+        color: black;
+        background-color: white;
+    }
+    
+    .allbody
+    {
+        color: white;
+        background-color: black;
+        height: auto;
+				min-height: 250px;
+        width: 95%;
+        margin-top: -20px;
+			/* opacity:0.8; */
+    }
+    
+body {font-family: Arial;}
+* {box-sizing: border-box}
+
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 10px 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+
+.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+		font-size: 20px;
+}
+
+.submit:hover {
+    opacity:1;
+}
+
+
+.signupbtn {
+  float: left;
+  width: 50%;
+}
+
+
+.container {
+    padding: 16px;
+}
+
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn {
+       width: 100%;
+    }
+}
+
+
+#logotext {
+	z-index: 999;
+	position: relative;
+	margin-top: -30px;
+	font-size: 25px;
+	font-weight: bold;
+	color: blue;
+	
+}
+
+#cimg{
+	position: relative;
+	width: 250px;
+	height: 250px;
+	float: right;
+	margin-top: -250px;
+	margin-right: 100px;
+}

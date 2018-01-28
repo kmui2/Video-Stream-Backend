@@ -1,110 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<meta charset="utf-8">
+<html>
+<link rel="stylesheet" href="index3.css">
+<title>Your Personal Coach</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
+<style>
+	.header .menu ul {
+		padding: 0;
+		margin: 0;
+	}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+	.header .menu ul li {
+		display: inline-block;
+		float: left;
+		list-style: none;
+		padding: 0 0 0 5px;
+		margin: 0;
+	}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+	.header .menuIcon {
+		display: none;
+		background: #000;
+		width: 100%;
+		text-align: center;
+	}
 
-        body {
-            font: 13px Helvetica, Arial;
-        }
+	.header .menuIcon:hover {
+		background: #999;
+	}
 
-        #msgForm {
-            background: #000;
-            padding: 3px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+	.header .menuIcon a {
+		width: 100%;
+		display: inline-block;
+		color: #fff;
+	}
 
-        #msgForm input {
-            border: 0;
-            padding: 10px;
-            width: 90%;
-            margin-right: .5%;
-        }
+	.header .menuIcon a img {
+		vertical-align: middle;
+	}
 
-        #msgForm button {
-            width: 9%;
-            background: rgb(130, 224, 255);
-            border: none;
-            padding: 10px;
-        }
+	@media only screen and (max-width: 1067px) {
+		.header .menu {
+			max-height: 0;
+			overflow: hidden;
+			float: none;
+			text-align: center;
+			width: 100%;
+			-webkit-transition: max-height 0.5s;
+			-moz-transition: max-height 0.5s;
+			transition: max-height 0.5s;
+		}
+		.header .menu.menuOpen {
+			max-height: 1000px;
+			-webkit-transition: max-height 0.5s;
+			-moz-transition: max-height 0.5s;
+			transition: max-height 0.5s;
+		}
+		.header .menu ul li {
+			display: block;
+			width: 100%;
+			background: #000;
+			border-top: 1px solid #4d4d4d;
+		}
+		.header .menu ul li:hover {
+			background: #999;
+		}
+		.header .menu ul li a {
+			color: #fff;
+			text-shadow: #848484 0px 1px 2px;
+			padding: 10px 0;
+			width: 100%;
+		}
+		.header .menuIcon {
+			display: inline-block;
+			width: 95%;
+			height: 50px;
+			font-size: 30px;
+			background-color: darkcyan;
+		}
+		form {
+			width: 50%;
+		}
 
-        #messages {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
+	}
 
-        #messages li {
-            padding: 5px 10px;
-        }
+	.title2icon {
+		max-width="5px";
+		height="5px";
+		margin-top: -15px;
+	}
+</style>
 
-        #messages li:nth-child(odd) {
-            background: #eee;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
+<body id="bodyid">
+	<span id="header">
+		<svg height="130" width="500">
+			<defs>
+				<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+					<stop offset="0%" style="stop-color:rgb(255,155,0);stop-opacity:1" />
+					<stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+				</linearGradient>
+			</defs>
+			<ellipse cx="200" cy="60" rx="2000" ry="55" fill="url(#grad1)" />
+			<text fill="#ffffff" font-size="45" font-family="Verdana" x="50" y="86"></text>
+			Sorry, your browser does not support inline SVG.
+		</svg>
+		<a href="#home">
+			<img class="logo" src="">
+		</a>
+		<!--<img src="bg.jpg" id="bg" alt="">-->
+		<br>
+		<br>
+	</span>
+	<p id="logotext">Your Personal Coach!</p>
+	<br>
+	<div id="arti">
+		<h1 id="nam">Welcome</h1>
+		<div class="header">
+			<div class="menuIcon">
+				<a class="menucl" href="#menuExpand">Menu</a>
+			</div>
+			<div class="menu">
+				<ul id="menu">
+					<li>
+						<a href="#home" class="title1">Home</a>
+					</li>
+					<li>
+						<a href="#register" class="title4">Register</a>
+					</li>
+					<li>
+						<a href="#login" class="title5">Login</a>
+					</li>
+					<li>
+						<a href="#contact" class="title2">Contact us!</a>
+					</li>
+					<li>
+						<a href="#about" class="title3">About us!</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-<body>
-    <b>Video:</b>
-    <br />
-    <form id="videoName" action="">
-        <select id="name">
-        </select>
-        <button>Submit</button>
-    </form>
-    <ul id="messages"></ul>
-    <form id="msgForm" action="">
-        <input id="m" autocomplete="off" />
-        <button>Send</button>
-    </form>
-    <div id="video"></div>
-    <!-- <video id="videoPlayer" width: "100px" height: "50px" controls style="width:100px;height:50px">
-        <source src="/video" type="video/mp4">
-    </video> -->
-    <script>
-        const socket = io();
-        $(function () {
-            var socket = io();
-            $('#msgForm').submit(function () {
-                socket.emit('chat message', $('#m').val());
-                $('#m').val('');
-                return false;
-            });
-            socket.on('chat message', function (msg) {
-                $('#messages').append($('<li>').text(msg));
-            });
-            $.get('/video_names', (data) => {
-                console.log(data)
-                data.names.forEach((name) => {
-                    $('#name').append('<option>'+name+'</option>');
-                });
-            });
-            $('#videoName').submit(() => {
-                let name = $('#name').val();
-                console.log(name);
-                let videoElement =
-                `<video id="videoPlayer" width: "100px" height: "50px" controls style="width:100px;height:50px">
-                    <source src="/video?name=${name}" type="video/mp4">
-                </video>`;
-                $('#video').append(videoElement);
-                return false;
-            })
-        });
-    </script>
+	<content>
+		<div class="body1 allbody">
+			<p id="time"></p>
+			<p>This is your personal coach website!</p>
+			<p>A project by: Saeid - *** - *** </p>
+			<br>
+			<br>
+
+		</div>
+		<img id="cimg" src="http://changingthegameproject.com/wp-content/uploads/2012/09/softball-coach-and-player.jpg" alt="Coach">
+		<div class="body4 allbody">
+
+
+
+			<form id="register" style="border:1px solid #ccc">
+				<div class="container">
+					<h1>Sign Up</h1>
+					<p>Please fill in this form to create an account.</p>
+					<hr>
+
+					<label>
+						<b>Email</b>
+					</label>
+					<input id="email" type="text" placeholder="Enter Email" name="email" required>
+					<br>
+					<label>
+						<b>Username:</b>
+					</label>
+					<input id="username" type="text" placeholder="Enter Username" name="username" required>
+					<br>
+					<label>
+						<b>Password</b>
+					</label>
+					<input id="password" type="password" placeholder="Enter Password" name="password" required>
+					<br>
+					<label>
+						<b>Repeat Password</b>
+					</label>
+					<input id="password-repeat" type="password" placeholder="Repeat Password" name="password-repeat" required>
+					<br>
+					<label>
+						<input type="checkbox" checked="checked" style="margin-bottom:15px"> Remember me?
+					</label>
+
+					<p>By creating an account you agree to our
+						<a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+					<div class="clearfix">
+						<button class="submit" type="submit" class="signupbtn">Sign Up</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
+
+		<div class="body5 allbody">
+			<form id="login" style="border:1px solid #ccc">
+				<div class="container">
+					<h1>Log in</h1>
+					<p>Please fill in this form to create an account.</p>
+					<hr>
+					<label>
+						<b>Username:</b>
+					</label>
+					<input id="username-login" type="text" placeholder="Enter Username" name="username" required>
+					<br>
+					<label>
+						<b>Password</b>
+					</label>
+					<input id="password-login" type="password" placeholder="Enter Password" name="password" required>
+					<br>
+					<label>
+						<input type="checkbox" checked="checked" style="margin-bottom:15px"> Remember me?
+					</label>
+
+					<div class="clearfix">
+						<button class="submit" type="submit" class="signupbtn">Log In</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="body6 allbody">
+				<p>Video</p>
+				<br />
+				<form id="videoName" action="">
+					<select id="name">
+					</select>
+					<button>Submit</button>
+				</form>
+				<div id="messages">
+					<ul></ul>
+					<form id="msgForm" action="">
+						<input id="m" autocomplete="off" />
+						<button>Send</button>
+					</form>
+
+				</div>
+				<div id="video"></div>
+		</div>
+
+		<div class="body2 allbody">
+			<p>
+				<a href="mailto:msnajdihejazi@stcloudstate.edu" id="em">Our email</a>
+			</p>
+		</div>
+
+		<div class="body3 allbody">
+			<p>Your Personal Coach About me page!</p>
+		</div>
+	</content>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="index3.js"></script>
+
+	<script>
+		$(function () {
+			$('.menucl').click(function (e) {
+				$(".menu").toggleClass("menuOpen");
+				e.preventDefault();
+			});
+		});
+
+		$(".title2icon").hide();
+
+	</script>
+
 </body>
 
 </html>
