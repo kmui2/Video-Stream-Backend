@@ -52,11 +52,11 @@ app.post('/login', (req, res, next) => {
     if(!user){
       return res.json({success: false, msg: 'User not found'});
     }
-
+    console.log(user)
     User.comparePassword(password, user.password, (err, isMatch) => {
       if(err) throw err;
       if(isMatch){
-        const token = jwt.sign(user, config.secret, {
+        const token = jwt.sign(user.toObject(), config.secret, {
           expiresIn: 604800 // 1 week
         });
 
