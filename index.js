@@ -44,14 +44,14 @@ var io = require('socket.io').listen(server);
 
 // login
 app.post('/login', (req, res, next) => {
+  console.log('login POST received')
   const username = req.body.username;
   const password = req.body.password;
 
   User.getUserByUsername(username, (err, user) => {
     if(err) throw err;
-    if(!user){
+    if(!user)
       return res.json({success: false, msg: 'User not found'});
-    }
     console.log(user)
     User.comparePassword(password, user.password, (err, isMatch) => {
       if(err) throw err;
@@ -80,16 +80,14 @@ app.post('/login', (req, res, next) => {
 
 // Register
 app.post('/register', (req, res, next) => {
-  console.log(req.body);
+  console.log('/register POST received')
   let newUser = new User({
     email: req.body.email,
     username: req.body.username,
     password: req.body.password
   });
   console.log(newUser);
-  console.log("hello world");
   User.addUser(newUser, (err, user) => {
-    console.log('no error 73')
     if(err){
       console.log('failed')
       res.json({success: false, msg:'Failed to register user'});
