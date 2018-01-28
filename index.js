@@ -1,8 +1,30 @@
 const express = require('express')
 const path = require("path");
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const User = require('./models/users.js');
 const app = express();
+const config = require('./config/database');
+const mongoose = require('mongoose');
+
+
+// Connect To Database
+mongoose.Promise = global.Promise;
+mongoose.connect(config.database);
+
+
+// On Connection
+mongoose.connection.on('connected', () => {
+  console.log('Connected to database '+config.database);
+});
+
+// On Error
+mongoose.connection.on('error', (err) => {
+  console.log('Database error: '+err);
+});
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +41,69 @@ var server = app.listen(app.get('port'), function () {
 })
 
 var io = require('socket.io').listen(server);
+
+// login
+app.post('/login', (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  User.getUserByUsername(username, (err, user) => {
+    if(err) throw err;
+    if(!user){
+      return res.json({success: false, msg: 'User not found'});
+    }
+
+    User.comparePassword(password, user.password, (err, isMatch) => {
+      if(err) throw err;
+      if(isMatch){
+        const token = jwt.sign(user, config.secret, {
+          expiresIn: 604800 // 1 week
+        });
+
+        res.json({
+          success: true,
+          token: 'JWT '+token,
+          user: {
+            id: user._id,
+            name: user.name,
+            username: user.username,
+            email: user.email
+          }
+        });
+      } else {
+        return res.json({success: false, msg: 'Wrong password'});
+      }
+    });
+  });
+});
+
+
+// Register
+app.post('/register', (req, res, next) => {
+  console.log(req.body);
+  let newUser = new User({
+    email: req.body.email,
+    username: req.body.username,
+    password: req.body.password
+  });
+  console.log(newUser);
+  console.log("hello world");
+  User.addUser(newUser, (err, user) => {
+    console.log('no error 73')
+    if(err){
+      console.log('failed')
+      res.json({success: false, msg:'Failed to register user'});
+    } else {
+      console.log('success')
+      res.json({success: true, msg:'User registered'});
+    }
+  });
+});
+
+// Profile
+app.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
+  res.json({user: req.user});
+});
 
 app.get('/video_names', function (req, res) {
   let names = [];
