@@ -18,7 +18,7 @@
             font: 13px Helvetica, Arial;
         }
 
-        form {
+        #msgForm {
             background: #000;
             padding: 3px;
             position: fixed;
@@ -26,14 +26,14 @@
             width: 100%;
         }
 
-        form input {
+        #msgForm input {
             border: 0;
             padding: 10px;
             width: 90%;
             margin-right: .5%;
         }
 
-        form button {
+        #msgForm button {
             width: 9%;
             background: rgb(130, 224, 255);
             border: none;
@@ -59,26 +59,50 @@
 </head>
 
 <body>
+    <b>Video:</b>
+    <br />
+    <form id="videoName" action="">
+        <select id="name">
+        </select>
+        <button>Submit</button>
+    </form>
     <ul id="messages"></ul>
-    <form action="">
+    <form id="msgForm" action="">
         <input id="m" autocomplete="off" />
         <button>Send</button>
     </form>
+    <div id="video"></div>
     <!-- <video id="videoPlayer" width: "100px" height: "50px" controls style="width:100px;height:50px">
-        <source src="http://localhost:8000/video" type="video/mp4">
+        <source src="/video" type="video/mp4">
     </video> -->
     <script>
         const socket = io();
         $(function () {
             var socket = io();
-            $('form').submit(function () {
+            $('#msgForm').submit(function () {
                 socket.emit('chat message', $('#m').val());
                 $('#m').val('');
                 return false;
             });
-    socket.on('chat message', function(msg){
-      $('#messages').append($('<li>').text(msg));
-    });
+            socket.on('chat message', function (msg) {
+                $('#messages').append($('<li>').text(msg));
+            });
+            $.get('/video_names', (data) => {
+                console.log(data)
+                data.names.forEach((name) => {
+                    $('#name').append('<option>'+name+'</option>');
+                });
+            });
+            $('#videoName').submit(() => {
+                let name = $('#name').val();
+                console.log(name);
+                let videoElement =
+                `<video id="videoPlayer" width: "100px" height: "50px" controls style="width:100px;height:50px">
+                    <source src="/video?name=${name}" type="video/mp4">
+                </video>`;
+                $('#video').append(videoElement);
+                return false;
+            })
         });
     </script>
 </body>

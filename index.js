@@ -115,7 +115,7 @@ app.get('/video_names', function (req, res) {
 
 
 app.get('/video', function (req, res) {
-  const path = 'assets/sample.mp4'
+  const path = 'assets/'+req.query.name+'.mp4'
   const stat = fs.statSync(path)
   const fileSize = stat.size
   const range = req.headers.range
